@@ -1,19 +1,36 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Platform
+} from "react-native";
 
 import { CATEGORIES } from "../data/dummy-data";
-
-const renderGridItem = itemData => {
-  return (
-    <View style={styles.gridItem}>
-      <Text>{itemData.item.title}</Text>
-      {/* TITLE GOTTEN FROM OUR MODEL. THEN STYLE OUR SINGLE DATA GRID*/}
-    </View>
-  );
-  // FlatList GIVES US A BUILT IN ITEMDATA TO POINT TO OBJECTS
-};
+import Colors from '../constants/Colors';
 
 const CategoriesScreen = props => {
+
+  const renderGridItem = itemData => {
+    return (
+      <TouchableOpacity
+        style={styles.gridItem}
+        onPress={() => {
+          props.navigation.navigate("CategoryMeals");
+        }}
+      >
+        <View>
+          <Text>{itemData.item.title}</Text>
+          {/* TITLE GOTTEN FROM OUR MODEL. THEN STYLE OUR SINGLE DATA GRID*/}
+        </View>
+      </TouchableOpacity>
+    );
+    // FlatList GIVES US A BUILT IN ITEMDATA TO POINT TO OBJECTS
+  };
+
   return (
     <FlatList
       keyExtractor={(item, index) => item.id}
@@ -24,6 +41,15 @@ const CategoriesScreen = props => {
   );
 };
 
+// SETTING PAGE TITLE ON NAVIGATION
+CategoriesScreen.navigationOptions = {
+    headerTitle: 'MealCategories',
+    headerStyle: {
+        backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
+    },
+    headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor
+}
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
@@ -31,9 +57,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   gridItem: {
-      flex: 1,
-      margin: 15,
-      height: 150
+    flex: 1,
+    margin: 15,
+    height: 150
   }
 });
 

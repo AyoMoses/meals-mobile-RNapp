@@ -31,6 +31,17 @@ const CategoryMealsScreen = props => {
   );
 };
 
+// CODE BELOW IS USED TO SET OUR NAVIGATION OPTIONS. NAVIGATION SHOWS CLICKED CATEGORY ON HEADER
+CategoryMealsScreen.navigationOptions = (navigationData) => {
+  const catId = navigationData.navigation.getParam('categoryId');
+
+  const selectedCategory = CATEGORIES.find(cat => cat.id === catId);
+
+  return {
+    headerTitle: selectedCategory.title
+  };
+};
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,

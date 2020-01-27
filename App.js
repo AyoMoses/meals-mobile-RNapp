@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
-import { useScreens } from 'react-native-screens';
+import { enableScreens } from 'react-native-screens';
 
 import MealsNavigator from "./navigation/MealsNavigator";
 
-useScreens();
+enableScreens();
+// MAKE SCREENS LOAD FASTER AND MORE OPTMIZED ON LARGER APPS
 
 const fetchFonts = () => {
-  Font.loadAsync({
+  return Font.loadAsync({
     "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
-    "open-sans": require("./assets/fonts/OpenSans-Bold.ttf")
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf")
   });
 };
 

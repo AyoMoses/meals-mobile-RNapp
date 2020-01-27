@@ -5,28 +5,24 @@ import {
   Button,
   StyleSheet,
   FlatList,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 
 import { CATEGORIES } from "../data/dummy-data";
+import CategoryGridTile from "../components/CategoryGridTile";
 
 const CategoriesScreen = props => {
   const renderGridItem = itemData => {
     return (
-      <TouchableOpacity
-        style={styles.gridItem}
-        onPress={() => {
+      <CategoryGridTile
+        title={itemData.item.title}
+        color={itemData.item.color} //we use color cos we named it so in the model
+        onSelect={() => {
           props.navigation.navigate("CategoryMeals", {
             categoryId: itemData.item.id
           });
-          // once touched by linking our item id to the new screen with categoryId and itemData
         }}
-      >
-        <View>
-          <Text>{itemData.item.title}</Text>
-          {/* TITLE GOTTEN FROM OUR MODEL. THEN STYLE OUR SINGLE DATA GRID*/}
-        </View>
-      </TouchableOpacity>
+      />
     );
     // FlatList GIVES US A BUILT IN ITEMDATA TO POINT TO OBJECTS
   };
@@ -44,7 +40,6 @@ const CategoriesScreen = props => {
 // SETTING PAGE TITLE ON NAVIGATION
 CategoriesScreen.navigationOptions = {
   headerTitle: "Meal Categories"
-  
 };
 
 const styles = StyleSheet.create({
@@ -52,11 +47,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
-  },
-  gridItem: {
-    flex: 1,
-    margin: 15,
-    height: 150
   }
 });
 

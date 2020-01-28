@@ -1,39 +1,45 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 
-import { CATEGORIES } from '../data/dummy-data';
+import { CATEGORIES, MEALS } from "../data/dummy-data";
+import MealItem from "../components/MealItem";
 
 const CategoryMealsScreen = props => {
-  const catId = props.navigation.getParam('categoryId');
+  const renderMealItem = itemData => {
+    return (
+      <MealItem
+        title={itemData.item.title}
+        image={itemData.item.imageUrl}
+        duration={itemData.item.duration}
+        complexity={itemData.item.complexity}
+        affordability={itemData.item.affordability}
+        onSelectMeal={() => {}}
+      />
+    );
+  };
+
+  const catId = props.navigation.getParam("categoryId");
   // we use this to get all the id with the meal category from the categories screen
 
-  const selectedCategory = CATEGORIES.find(cat => cat.id === catId);
+  const displayedMeals = MEALS.filter(
+    meal => meal.categoryIds.indexOf(catId) >= 0
+  );
+
   return (
     <View style={styles.screen}>
-      <Text>The Category Meals Screen!</Text>
-      <Text>{selectedCategory.title}</Text>
-      <Button
-        title="Go to Meal Details"
-        onPress={() => {
-          props.navigation.navigate("MealDetail");
-        }}
+      <FlatList
+        data={displayedMeals}
+        keyExtractor={(item, index) => item.id}
+        renderItem={renderMealItem}
+        style={{ width: "100%" }}
       />
-
-      <Button
-        title="Go back"
-        onPress={() => {
-          props.navigation.goBack();
-        }}
-      />
-
-      {/* YOU CAN USE POP() FOR NAVIGATIONS WITHING THE STACK WHICH TAKES YOU BACK TOO */}
     </View>
   );
 };
 
 // CODE BELOW IS USED TO SET OUR NAVIGATION OPTIONS. NAVIGATION SHOWS CLICKED CATEGORY ON HEADER
-CategoryMealsScreen.navigationOptions = (navigationData) => {
-  const catId = navigationData.navigation.getParam('categoryId');
+CategoryMealsScreen.navigationOptions = navigationData => {
+  const catId = navigationData.navigation.getParam("categoryId");
 
   const selectedCategory = CATEGORIES.find(cat => cat.id === catId);
 
